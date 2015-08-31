@@ -29,3 +29,7 @@ launch.sh
 .env
 
 /bower_components/*
+
+.idea
+
+*.*~

@@ -7,4 +7,12 @@ class StaticPagesController < ApplicationController
   
   def ask_the_question_guide
   end
+
+  def home
+    @videos = Statement.approved
+  end
+
+  def upload_video
+  end
+
 end

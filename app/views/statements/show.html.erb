@@ -7,28 +7,8 @@
 
 <div class="well bs-component col-lg-6">
   <p>
-    <strong>Sync ID:</strong>
-    <%= @statement.rwu_id %>
-  </p>
-
-  <p>
     <strong>Title:</strong>
     <%= @statement.title %>
-  </p>
-
-  <p>
-    <strong>Campaign:</strong>
-    <%= @statement.campaign_name %>
-  </p>
-
-  <p>
-    <strong>Candidate:</strong>
-    <%= @statement.candidate_name %>
-  </p>
-
-  <p>
-    <strong>Event:</strong>
-    <%= @statement.event_name %>
   </p>
 
   <p>
@@ -42,21 +22,23 @@
   </p>
 
   <p>
-    <strong>YouTube URL:</strong>
+    <strong>Video URL:</strong>
     <%= @statement.youtube_url %>
-  </p>
-
-  <p>
-    <strong>Third Party URL:</strong>
-    <%= @statement.third_party_url %>
-  </p>
-
-  <p>
-    <strong>Approved:</strong>
-    <%= @statement.approved %>
   </p>
     
   <ul class="pager">
   	<li class="next"><%= link_to 'Edit →', edit_statement_path(@statement) %></li>
   </ul>
+
+  <%= render 'modal', 
+    modal_id: "beverly", 
+    modal_title: "Share Video or Audio", 
+    modal_description: "By sharing your content with us, you grant us permission to share it with others.", 
+    include_candidate_and_event_fields: true,
+    steps: {
+      1 => "Step 1: Tell us about yourself",
+      2 => "Step 2: Tell us what you're sharing",
+      3 => "Step 3: Select the video (or audio) file" },
+    notes_placeholder: 'Please share any additional info about your submission' %>
+
 </div>

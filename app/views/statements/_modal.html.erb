@@ -1,159 +1,35 @@
 <style>
-  fieldset { margin-top: 30px }
-  .input-group-addon { padding: 10px 11px !important }
+fieldset { margin-top: 30px }
+.input-group-addon { padding: 10px 11px !important }
 </style>
 <%= form_for @default_statement, html: { class: "direct-upload col-lg-12 form-horizontal" } do |f| %>
-<div class="modal fade col-lg-12" id="<%= modal_id %>" tabindex="-1" role="dialog" 
-  aria-labelledby="upload_title" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-  <div class="modal-dialog">
-    <div class="modal-content col-lg-12">
-      <div class="modal-header">
-        <button id="close-button" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h2 class="modal-title" id="upload_title"><%= modal_title %></h2>
+<div class="modal fade col-lg-12" id="beverly" tabindex="-1" role="dialog" 
+aria-labelledby="upload_title" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content col-lg-12">
+  			<div class="modal-header">
+			    <button id="close-button" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			    <h2 class="modal-title" id="upload_title"><%= modal_title %></h2>
 			</div>
-      <div class="modal-body col-lg-12">
+			<div class="modal-body col-lg-12">
 				<em class="col-lg-12"><%= modal_description %></em>
-    <% if steps.keys.include? 1 %>
-			<%= f.fields_for :user, @default_statement.user do |u| %>
-				<fieldset class="col-lg-12">
-  				<legend><%= steps[1] %></legend>
-					<div class="col-lg-6">
-						<%=u.text_field :first_name, class: "form-control", placeholder: "First Name"%>
-					</div>
-					<div class="col-lg-6">
-						<%=u.text_field :last_name, class: "form-control", placeholder: "Last Name"%>
-					</div>
-					<div class="col-lg-6">
-						<%=u.text_field :email, class: "form-control", placeholder: "Email"%>
-					</div>
-					<div class="col-lg-6">
-						<%=u.text_field :postal_code, class: "form-control", placeholder: "ZIP Code"%>
-					</div>
-				</fieldset>
-			<% end %>
-		  <em class="col-lg-offset-1 col-lg-11">Want to remain anonymous? That's cool. All fields are optional.</em>
-    <% end %>
-    <% if steps.keys.include? 2 %>
-				<fieldset class="col-lg-12">
-  				<legend><%= steps[2] %></legend>
-        <% if include_candidate_and_event_fields %>
-					<div class="col-lg-6">
-						<%=f.text_field :ugc_candidate_name, class: "form-control", placeholder: "Candidate Name"%>
-					</div>					
-          <div class="input-group col-lg-6" style="width: 219px; padding: 0 15px" id="ugc_date">
-						<%=f.text_field :ugc_date, style: "width: 180px; float: right", class: "form-control", placeholder: "Event Date"%>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-					</div>
-					<div class="col-lg-6">
-						<%=f.text_field :ugc_event_title, class: "form-control", placeholder: "Event Title"%>
-					</div>
-					<div class="col-lg-6">
-						<%=f.text_field :ugc_event_location, class: "form-control", placeholder: "Event Location"%>
-					</div>
-        <% end %>
-					<div class="col-lg-12">
-						<%=f.text_area :ugc_notes, class: "form-control", placeholder: notes_placeholder %>
-					</div>
-				</fieldset>
-    <% end %>
-    <% if steps.keys.include? 3 %>
-      <% @s3_direct_post = S3_BUCKET.presigned_post({ key: "uploads/#{SecureRandom.uuid}/${filename}", 
-                                                      acl: 'public-read', 
-                                                      success_action_status: '201', 
-                                                      metadata: { 'original-filename' => '${filename}' } }) %>
-				<fieldset class="col-lg-12">
-  				<legend><%= steps[3] %></legend>
-					<div id="file_upload" class="col-lg-12">
-						<%= f.file_field :url, accept: "*", id: 'direct-upload', class: "col-lg-12" %>
-					</div>
-				</fieldset>
-		<% end %>
-      </div>
-	    <div class="modal-footer col-lg-12">
-				<%= f.submit 'Share', class: "col-lg-offset-4 col-lg-4 btn btn-primary" %>
-	    </div>
-	  </div>
-	</div>
+  				<div class="col-lg-4">
+    				<div style="padding: 0">
+      					<div class="col-lg-12"><%=AMERICA_NEW_YORK_TIME_ZONE.format_date(@video.date)%></div>
+      						<h4 class="col-lg-12">
+					        <% if @current_user.admin? %>
+					          <%=link_to "#{video.title}", edit_statement_path(@video) %>
+					        <% else %>
+					          <%=@video.title %>
+					        <% end %>
+						    </h4>
+					        <iframe src="<%=@video.youtube_embed_url%>?hd=1&rel=0&autohide=1&showinfo=0" frameborder="0"></iframe>
+					    </div>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
 </div>
-<% end %>	
-<script>
-	$(function() {
-    $('#<%= modal_id %> #ugc_date').datetimepicker({
-			format: 'MM/DD/YYYY'
-    });
-  });
-</script>
-<style>
-  .bar {
-	  margin-top: .5em;
-	  height:  1.2em;
-	}  
-</style>
-<% if steps.include? 3 %>
-<script>	
-	$(function() {
-    var file_upload = $('#file_upload');
-		var file_input = $('#<%= modal_id %> #direct-upload');	
-		var form = $(file_input.parents('form:first'));
-	  var submit_button = form.find('input[type="submit"]');
-	  var progress_bar = $("<div class='bar'></div>");
-	  var pb_container = $("<div class='col-lg-12'></div>").append(progress_bar);
-	  file_upload.after(pb_container);
-	  file_input.fileupload({
-      maxFileSize: 1000000000,
-	    fileInput: file_input,
-	    url: '<%= @s3_direct_post.url %>',
-	    type: 'POST',
-	    autoUpload: true,
-	    formData: <%= @s3_direct_post.fields.to_json.html_safe %>,
-	    paramName: 'file',
-	    dataType: 'XML',
-	    replaceFileInput: false,
-			progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        progress_bar.css('width', progress + '%')
-      },
-      start: function (e) {
-        submit_button.prop('disabled', true);
-        progress_bar.				
-					css('background-repeat', 'no-repeat').
-          css('background-image', 'linear-gradient(#88c149, #73a839 60%, #699934)').
-          css('display', 'block').
-          css('width', '0%').
-				  css('height', '20px')
-					$('#upload_modal').modal({
-					  backdrop: 'static',
-					  keyboard: false
-					});
-					$('#close_button').prop('disabled', true);
-      },
-      done: function(e, data) {
-        submit_button.prop('disabled', false);
-				$('#upload_modal').modal({
-				  backdrop: true,
-				  keyboard: true
-				});
-				$('#close_button').prop('disabled', false);
-        var key   = $(data.jqXHR.responseXML).find("Key").text();
-        var url   = '//<%= URI(@s3_direct_post.url).host %>/' + key;
-        var input = $("<input />", { type:'hidden', name: file_input.attr('name'), value: url })
-        form.append(input);
-      },
-      fail: function(e, data) {
-				console.log(e);
-				console.log(data);
-        submit_button.prop('disabled', false);
-				$('#upload_modal').modal({
-				  backdrop: true,
-				  keyboard: true
-				});
-				$('#close_button').prop('disabled', false);
-        progress_bar.
-          css("background", "red")
-      }
-	  });
-	});
-</script>
+
 <% end %>

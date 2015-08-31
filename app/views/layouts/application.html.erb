@@ -13,19 +13,49 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.1/moment.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
 	  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/flatly/bootstrap.min.css"/>		
 	  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"/>
 	  <%= csrf_meta_tags %>
 		    
     <style>
-      a { color: #f39c12 }
-      a:hover { color: #f39c12 !important }
-      #logo { width: 150px }
-      #footer-content { color: #fff; background-color: #134061; }
+      a { 
+        text-decoration: none;
+      }
+      a:active, a:focus, a:hover, a:link, a:visited {
+        outline: 0 none;
+        text-decoration: none;
+      }
+      .nav a {
+        color: #fff !important;
+        border: 3px solid transparent;
+        display: block;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 9px;
+        transition: all 0.2s ease-in 0s;
+      }
+      
+      .btn a {
+        color: #fff !important;
+      }
+
+      #logo { width: 200px }
+      #footer-content { }
       div.checkbox-left { width: 70px }
+      .navbar { max-width: 1340px !important; margin: 0 auto !important; }
+      .navbar .container { width: 1340px !important; max-width: 1340px !important; margin: 0 auto !important; }
+      .navbar .nav { margin-top: 15px; }
       .container-fluid { max-width: 1340px !important; }
       .alert { margin-top: 21px }
-      div.panel-heading { background-color: #134061 !important }
       ul.dropdown-menu li.nav-list-heading { padding-left: 10px }
       div#video-answers iframe { width: 400px; height: 224px; margin-bottom: 35px; }}                                  
       @media (max-width: 1024px) { 
@@ -74,7 +104,6 @@
         e.type = 'text/javascript';
         e.id = 'janrainAuthWidget';
 
-        //TODO CAB fix auth  
         if (document.location.protocol === 'https:') {
           e.src = 'https://rpxnow.com/js/lib/fixdemocracyfirst/engage.js';
         } else {
@@ -89,29 +118,25 @@
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-62491528-1', 'auto');
+      ga('create', 'TODO -- get new key', 'auto');
       ga('send', 'pageview');
   	<% end %>
     </script>
   </head>
 	<body>
-		<nav class="navbar navbar-default" style="background-color: #134061; margin: 0 !important; border-radius: 0 !important">
+    <div id="fb-root"></div>
+		<nav class="navbar navbar-default" style="background-color: #3952e7; border-radius: 0 !important">
 		  <div class="container">
-		    <div class="navbar-header">
+		    <div class="navbar-header" style="padding-bottom: 5px">
 		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
 		        <span class="sr-only">Toggle navigation</span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-		      <%= link_to image_tag('questionr-logo.png', { id: 'logo' }), '/', class: 'navbar-brand' %>
+		      <%= link_to image_tag('lessig-logo-fdf.png', { id: 'logo' }), '/', class: 'navbar-brand' %>
 		    </div>
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-		      <ul class="nav navbar-nav">
-		        <li<%= URI(request.url).path.starts_with?('/events') ? ' class=active' : '' %>><%= link_to 'Events', :events %></li>
-		        <li<%= URI(request.url).path.starts_with?('/candidates') ? ' class=active' : '' %>><%= link_to 'Candidates', :candidates %></li>
-		        <li<%= URI(request.url).path.starts_with?('/statements') ? ' class=active' : '' %>><%= link_to 'Answers', :controller => :statements, :action => :browse %></li>
-		      </ul>
         <% if @current_user.admin? %>
 		      <ul class="nav navbar-nav navbar-right">
 		        <li class="dropdown">
@@ -126,10 +151,33 @@
         </div>
 		  </div>
 		</nav>
-		<div id="content" class="container-fluid">
-			<%= yield %>
+    <div id="content" class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-3">
+            <h3 style="margin:10px 10px 10px 0; padding:0">FIX DEMOCRACY FIRST</h3>
+          </div>
+          <div class="col-lg-offset-6 col-lg-2" style="margin-top: 15px">
+            <a href="https://twitter.com/share" 
+               class="twitter-share-button" 
+               data-text="Why do you want to fix our democracy? Tell us your story!"
+               data-via="lessig2016"
+               data-size="large" 
+               data-hashtags="FixDemocracyFirst">Tweet</a>
+          </div>
+          <div class="col-lg-1" style="margin-top: 15px">            
+            <div class="fb-share-button" 
+                 data-href="http://fixdemocracyfirst.us/" 
+                 data-layout="button_count">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <%= yield %>
+      </div>
 		</div>
-    <nav class="navbar navbar-inverse footer" style="background-color: #134061; margin-top: 20px">
+    <nav class="navbar navbar-inverse footer" style="background-color: #fff; margin-top: 20px">
       <div stlye="text-align: center; color: #fff" class="container-fluid">
         <div class="row">
           <div class="col-lg-offset-3 col-lg-9"> 
@@ -142,11 +190,6 @@
         </div>
         <div class="row">
           <div id="footer-content" class="col-lg-offset-3 col-lg-5"> 
-            <h3 class="col-lg-12">Questionr is a project of the <%=link_to 'NH Rebellion',
-              'http://nhrebellion.org', target: '_blank' %></h3>
-            <h4 class="col-lg-12" style="color: #fff">We're going to make systemic political corruption the 
-              central issue of the 2016 presidential primary by asking every candidate, &ldquo;What specific 
-              reforms will you advance to end the corrupting influence of money in politics?&rdquo;</h4>
             <h5 class="col-lg-12">&copy;2015 <%=link_to 'Lessig2016.us',
               'http://Lessig2016.us', target: '_blank' %>. Some rights reserved.</h5>          
             <h5 class="col-lg-12"><%= link_to image_tag("https://i.creativecommons.org/l/by/3.0/80x15.png"), 
@@ -155,7 +198,6 @@
           <div class="col-lg-3">
             <ul class="list-group">
               <li class="list-group-item"><%= link_to 'Contact Us', 'mailto:questionr@nhrebellion.org?subject=A%20Question%20about%20Questionr.us' %></li>
-              <li class="list-group-item"><%= link_to 'Send Us a Tip', '#', 'data-toggle' => 'modal', 'data-target' => '#tip_modal'%></li>
               <li class="list-group-item"><%= link_to 'Privacy', 'http://www.nhrebellion.org/privacy_policy', target: '_blank' %></li>
               <li class="list-group-item"><%= link_to 'Media Inquiries', 'mailto:media@nhrebellion.org?subject=Questionr%20Media%20Inquiry' %></li>
               <li class="list-group-item"><%= link_to 'Attributions', '/attributions' %></li>
@@ -164,24 +206,5 @@
         </div>
       </div>
     </nav>
-    <%= render 'statements/modal', 
-        modal_id: "upload_modal", 
-        modal_title: "Share Video or Audio", 
-        modal_description: "By sharing your content with us, you grant us permission to share it with others.", 
-        include_candidate_and_event_fields: true,
-        steps: {
-          1 => "Step 1: Tell us about yourself",
-          2 => "Step 2: Tell us what you're sharing",
-          3 => "Step 3: Select the video (or audio) file" },
-        notes_placeholder: 'Please share any additional info about your submission' %>
-    <%= render 'statements/modal', 
-        modal_id: "tip_modal", 
-        modal_title: "Tip Line",
-        modal_description: "By sharing this tip with us, you grant us permission to share it with others.",
-        include_candidate_and_event_fields: false,
-        steps: {
-          1 => "Step 1: Tell us about yourself",
-          2 => "Step 2: Tell us the scoop" },
-        notes_placeholder: "Hot tip about a presidential candidate appearance? Interesting candidate's quote that we haven't captured? Other useful information? Send us a tip!" %>
 	</body>
 </html>

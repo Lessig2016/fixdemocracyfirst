@@ -4,13 +4,10 @@
     <div style="padding: 0">
       <div class="col-lg-12"><%=AMERICA_NEW_YORK_TIME_ZONE.format_date(video.date)%></div>
       <h4 class="col-lg-12">
-      <% if @current_user.admin? %>
-        <%=link_to "#{video.title}", edit_statement_path(video) %>
-      <% else %>
-        <%=video.title %>
-      <% end %>
+        <%=link_to "#{video.title}", {controller: :statements, action: :show, id: video.id} %>
       </h4>
       <iframe src="<%=video.youtube_embed_url%>?hd=1&rel=0&autohide=1&showinfo=0" frameborder="0"></iframe>
+ 
     </div>
   </div>
 <% end %>
