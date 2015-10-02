@@ -1,8 +1,11 @@
  <div class="col-lg-8">
   <div class="jumbotron masthead">
-      <h1>ADD TAGS HERE</h1>
+      <h1>CREATE TAGS HERE</h1>
   </div>
-  <div class="">
+  <div>
+    <p>
+    Existing tags:
+    </p>
     <ul>
       <% Tag.all.each do |t| %>
           <li><%= t.name %></li>
