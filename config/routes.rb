@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :event_days
   resources :events
   resources :venues
+  resources :tags
   mount ResqueWeb::Engine => "/resque_web"
   get 'admin' => 'static_pages#admin'
   get 'attributions' => 'static_pages#attributions'

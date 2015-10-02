@@ -1,0 +1,27 @@
+ <div class="col-lg-8">
+  <div class="jumbotron masthead">
+      <h1>ADD TAGS HERE</h1>
+  </div>
+  <div class="">
+    <ul>
+      <% Tag.all.each do |t| %>
+          <li><%= t.name %></li>
+      <% end %> 
+
+    </ul>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="col-lg container">
+<%= form_for :tag, html: { class: "form-inline" } do |f| %>
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Tag name</label>
+    <div class="input-group">
+      <%= f.text_field :name, class: "form-control", placeholder: "Tag name" %>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Create</button>
+<% end %>
+</div>

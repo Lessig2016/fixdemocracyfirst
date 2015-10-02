@@ -94,6 +94,7 @@ class StatementsController < ApplicationController
                                         :ugc_notes, 
                                         :youtube_url,
                                         :third_party_url,
+                                        :tag_ids => [],
                                         user_attributes: [:first_name, :last_name, :email, :mobile_phone, :postal_code])
     end
 end

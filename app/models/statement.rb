@@ -20,6 +20,8 @@ class Statement < ActiveRecord::Base
   belongs_to :campaign
   belongs_to :candidate
 
+  has_and_belongs_to_many :tags
+
   default_scope { includes(:event_day).order("event_days.date desc").order("statements.created_at asc") } 
   scope :approved, -> { includes(:event_day)
                           .where(approved: true)
