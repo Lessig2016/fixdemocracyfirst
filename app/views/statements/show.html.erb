@@ -9,6 +9,12 @@
 <div class="row">
   <div class="col-lg-4 videoinfo">
     <h1 class="modal-title" id="upload_title"><%=@statement.title %></h1>
+    <h4>Tags:</h4>
+      <ul>
+        <% @statement.tags.all.each do |t| %>
+            <button type="button" class="btn btn-default"><%= t.name %></button>
+        <% end %> 
+      </ul>
     <h4>Share this video:</h4>
         <div class="addthis_sharing_toolbox"></div>
     <h5>Create your own:</h5>
