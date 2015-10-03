@@ -36,3 +36,4 @@ launch.sh
 
 *.*~
 .DS_Store
+vendor/assets/rootstrap/
