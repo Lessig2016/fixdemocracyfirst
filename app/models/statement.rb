@@ -54,15 +54,26 @@ class Statement < ActiveRecord::Base
   
   def youtube_id 
     return nil unless self.youtube_url
-    URI::parse(self.youtube_url).query.split('&').each do |q|
-      name, value = q.split('=')
-      return value if name == 'v'
+    uri = URI::parse(self.youtube_url)
+    if uri.query
+      URI::parse(self.youtube_url).query.split('&').each do |q|
+        name, value = q.split('=')
+        return value if name == 'v'
+      end
+    else
+      return self.youtube_url.match(/v\/(.*)/)[1]
     end
     nil
   end
   
   def youtube_embed_url
-    self.youtube_url ? self.youtube_url.gsub('watch?v=', 'embed/') : ''
+    return nil unless self.youtube_url
+    uri = URI::parse(self.youtube_url)
+    if uri
+      "https://#{uri.host}/v/#{self.youtube_id}"
+    else
+      nil
+    end
   end
   
   def youtube_video_card_url
