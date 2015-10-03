@@ -28,7 +28,7 @@
 <% content_for :share_metadata do %>
   <meta property="og:url" content="<%= request.original_url %>">
   <meta property="og:title" content="<%= @statement.title %>">
-  <meta property="og:type" content="video.other">
+  <meta property="og:type" content="video">
   <meta property="og:description" content="<%= @statement.description %>">
   <meta property="og:image" content="<%= @statement.youtube_video_card_url %>">
   <meta property="og:video" content="<%= @statement.youtube_url.gsub('https://', 'http://') %>">
