@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429204806) do
+ActiveRecord::Schema.define(version: 20151002021129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,19 @@ ActiveRecord::Schema.define(version: 20150429204806) do
   add_index "statements", ["event_day_id"], name: "index_statements_on_event_day_id", using: :btree
   add_index "statements", ["rwu_id"], name: "index_statements_on_rwu_id", using: :btree
   add_index "statements", ["user_id"], name: "index_statements_on_user_id", using: :btree
+
+  create_table "statements_tags", force: :cascade do |t|
+    t.integer "tag_id",       null: false
+    t.integer "statement_id", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
