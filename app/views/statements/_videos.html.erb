@@ -8,18 +8,6 @@
 <div id="video-answers" class="row col-lg-12 video-row">
   <div class="subheader_title col-lg-12"><div>Latest Videos</div></div>
 
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Filter by tags
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-      <% Tag.all.each do |t| %>
-          <li><a href="#"><%= t.name %></a></li>
-      <% end %> 
-  </ul>
-</div>
-
 <% @videos.each do |video| %>  
   <div class="col-lg-4">
     
